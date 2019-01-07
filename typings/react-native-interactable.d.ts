@@ -1,6 +1,5 @@
-declare module 'react-native-interactable' {
-
-  import {Animated, ViewProperties, ViewStyle} from 'react-native';
+declare module "react-native-interactable" {
+  import { Animated, ViewProperties, ViewStyle, StyleProp } from "react-native";
 
   namespace Interactable {
     interface ISnapPoint {
@@ -85,9 +84,11 @@ declare module 'react-native-interactable' {
       nativeEvent: INativeStopEvent;
     }
 
-    type NativeDragEventStartStateType = 'start';
-    type NativeDragEventEndStateType = 'end';
-    type NativeDragEventState = NativeDragEventStartStateType | NativeDragEventEndStateType;
+    type NativeDragEventStartStateType = "start";
+    type NativeDragEventEndStateType = "end";
+    type NativeDragEventState =
+      | NativeDragEventStartStateType
+      | NativeDragEventEndStateType;
 
     interface INativeDragEvent {
       state: NativeDragEventState;
@@ -99,11 +100,15 @@ declare module 'react-native-interactable' {
       nativeEvent: INativeDragEvent;
     }
 
-    type NativeAlertEventEnterValueType = 'enter';
-    type NativeAlertEventLeaveValueType = 'leave';
-    type NativeAlertEventValue = NativeAlertEventEnterValueType | NativeAlertEventLeaveValueType;
+    type NativeAlertEventEnterValueType = "enter";
+    type NativeAlertEventLeaveValueType = "leave";
+    type NativeAlertEventValue =
+      | NativeAlertEventEnterValueType
+      | NativeAlertEventLeaveValueType;
 
-    interface INativeAlertEvent { [id: string]: NativeAlertEventValue }
+    interface INativeAlertEvent {
+      [id: string]: NativeAlertEventValue;
+    }
 
     interface IAlertEvent {
       nativeEvent: INativeAlertEvent;
@@ -130,12 +135,17 @@ declare module 'react-native-interactable' {
       animatedValueY?: Animated.Value;
       animatedNativeDriver?: boolean;
       initialPosition?: IInitialPosition;
-      style?: ViewStyle;
+      style?: StyleProp<ViewStyle>;
     }
 
     interface IInteractable {
-      View: new () => React.Component<IInteractableView, {}>;
+      View: new () => InteractableView;
     }
+  }
+
+  export class InteractableView extends React.Component<IInteractableView> {
+    snapTo(options: { index: number }): void;
+    setVelocity(options: { x: number; y: number }): void;
   }
 
   const Interactable: Interactable.IInteractable;
